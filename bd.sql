@@ -1,7 +1,7 @@
-CREATE DATABASE inventario_db;
+CREATE DATABASE IF NOT EXISTS inventario_db;
 USE inventario_db;
 
-CREATE TABLE productos (
+CREATE TABLE IF NOT EXISTS productos (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL,
     descripcion TEXT,
