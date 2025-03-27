@@ -1,40 +1,31 @@
-const express = require('express');
-const connection = require('./db');
-const cors = require('cors');
-
-const app = express();
-app.use(cors());
-app.use(express.json());
-
-
-app.get('/productos', (req, res) => {
-    connection.query('SELECT * FROM productos', (err, results) => {
-        if (err) {
-            res.status(500).json({ error: err.message });
-        } else {
-            res.json(results);
-        }
+ }
+        res.json({ mensaje: 'Producto eliminado con éxito' });
     });
 });
 
-
-app.post('/productos', (req, res) => {
+app.put('/productos/:id', (req, res) => {
+    const { id } = req.params;
     const { nombre, descripcion, precio, cantidad } = req.body;
-    connection.query(
-        'INSERT INTO productos (nombre, descripcion, precio, cantidad) VALUES (?, ?, ?, ?)',
-        [nombre, descripcion, precio, cantidad],
+
+    pool.query(
+        'UPDATE productos SET nombre = ?, descripcion = ?, precio = ?, cantidad = ? WHERE id = ?',
+        [nombre, descripcion, precio, cantidad, id],
         (err, result) => {
             if (err) {
-                res.status(500).json({ error: err.message });
-            } else {
-                res.json({ id: result.insertId, ...req.body });
+                console.error('❌ Error al actualizar producto:', err);
+                return res.status(500).json({ error: 'Error al actualizar el producto' });
             }
+            if (result.affectedRows === 0) {
+                return res.status(404).json({ error: 'Producto no encontrado' });
+            }
+            res.json({ mensaje: 'Producto actualizado con éxito' });
         }
     );
 });
 
-
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-    console.log(`Servidor corriendo en http://localhost:${PORT}`);
+    console.log(`🚀 Servidor corriendo en http://localhost:${PORT}`);
 });
+
+
