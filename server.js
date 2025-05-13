@@ -1,8 +1,8 @@
 const express = require('express');
-const pool = require('./db'); // Asegúrate de que db.js está en la misma carpeta
+const pool = require('./db'); 
 
 const app = express();
-app.use(express.json()); // Middleware para JSON
+app.use(express.json()); 
 
 
 app.get('/', (req, res) => {
