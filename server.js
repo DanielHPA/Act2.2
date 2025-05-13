@@ -4,12 +4,12 @@ const pool = require('./db'); // Asegúrate de que db.js está en la misma carpe
 const app = express();
 app.use(express.json()); // Middleware para JSON
 
-// Ruta para la URL raíz
+
 app.get('/', (req, res) => {
     res.send('Bienvenido a la API de Productos');
 });
 
-// Obtener todos los productos
+
 app.get('/productos', async (req, res) => {
     try {
         const [rows] = await pool.query('SELECT * FROM productos');
@@ -20,7 +20,7 @@ app.get('/productos', async (req, res) => {
     }
 });
 
-// Agregar un nuevo producto
+
 app.post('/productos', async (req, res) => {
     const { nombre, descripcion, precio, cantidad } = req.body;
     try {
@@ -35,7 +35,7 @@ app.post('/productos', async (req, res) => {
     }
 });
 
-// Eliminar un producto
+
 app.delete('/productos/:id', async (req, res) => {
     const { id } = req.params;
     try {
@@ -50,7 +50,7 @@ app.delete('/productos/:id', async (req, res) => {
     }
 });
 
-// Actualizar un producto
+
 app.put('/productos/:id', async (req, res) => {
     const { id } = req.params;
     const { nombre, descripcion, precio, cantidad } = req.body;
@@ -70,7 +70,7 @@ app.put('/productos/:id', async (req, res) => {
     }
 });
 
-// Iniciar el servidor
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`🚀 Servidor corriendo en http://localhost:${PORT}`);
